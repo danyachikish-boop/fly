@@ -16,30 +16,32 @@ ScreenGui.Name = "CustomCheatHub"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = PlayerGui
 
--- Иконка для открытия/скрытия меню
-local ToggleButton = Instance.new("ImageButton")
+-- Плавающая кнопка-иконка слева
+local ToggleButton = Instance.new("TextButton")
 ToggleButton.Name = "MenuIcon"
 ToggleButton.Size = UDim2.new(0, 45, 0, 45)
 ToggleButton.Position = UDim2.new(0, 20, 0.5, -22)
 ToggleButton.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 ToggleButton.BorderSizePixel = 0
 ToggleButton.Draggable = true
-ToggleButton.Image = "https://raw.githubusercontent.com/danyachikish-boop/fly/main/icon.png"
+ToggleButton.Text = "⚙"
+ToggleButton.TextColor3 = Color3.fromRGB(0, 255, 128)
+ToggleButton.TextSize = 22
+ToggleButton.Font = Enum.Font.GothamBold
 ToggleButton.Parent = ScreenGui
 
 local IconCorner = Instance.new("UICorner")
 IconCorner.CornerRadius = UDim.new(1, 0)
 IconCorner.Parent = ToggleButton
 
--- Полупрозрачное основное окно (Glassmorphism)
+-- Главное окно в стиле Glassmorphism (матовое стекло)
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Size = UDim2.new(0, 320, 0, 460)
 MainFrame.Position = UDim2.new(0.5, -160, 0.5, -230)
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-MainFrame.BackgroundTransparency = 0.2
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 22)
+MainFrame.BackgroundTransparency = 0.15 -- Красивая полупрозрачность
 MainFrame.BorderSizePixel = 0
-MainFrame.ClipsDescendants = true -- Чтобы картинка фона не вылезала за скругления
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.Parent = ScreenGui
@@ -48,25 +50,14 @@ local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 12)
 UICorner.Parent = MainFrame
 
--- Фоновая картинка из твоего репозитория (images.jpg)
-local BgImage = Instance.new("ImageLabel")
-BgImage.Name = "BackgroundImage"
-BgImage.Size = UDim2.new(1, 0, 1, 0)
-BgImage.BackgroundTransparency = 1
-BgImage.Image = "https://raw.githubusercontent.com/danyachikish-boop/fly/main/images.jpg"
-BgImage.ImageTransparency = 0.4 -- Прозрачность картинки, чтобы текст оставался читаемым
-BgImage.ScaleType = Enum.ScaleType.Slice
-BgImage.ZIndex = 0
-BgImage.Parent = MainFrame
+-- Неоновая обводка окна
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(80, 80, 120)
+UIStroke.Transparency = 0.5
+UIStroke.Thickness = 1.5
+UIStroke.Parent = MainFrame
 
--- Обводка окна
-local BlurEffect = Instance.new("UIStroke")
-BlurEffect.Color = Color3.fromRGB(255, 255, 255)
-BlurEffect.Transparency = 0.85
-BlurEffect.Thickness = 1.5
-BlurEffect.Parent = MainFrame
-
--- Логика сворачивания/разворачивания по клику на иконку
+-- Логика сворачивания/разворачивания
 local isOpen = true
 ToggleButton.MouseButton1Click:Connect(function()
    isOpen = not isOpen
@@ -76,29 +67,27 @@ end)
 -- Шапка окна
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, 0, 0, 45)
-Title.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-Title.BackgroundTransparency = 0.4
+Title.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+Title.BackgroundTransparency = 0.3
 Title.BorderSizePixel = 0
 Title.Text = "  Custom Hub | Pro"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 15
 Title.Font = Enum.Font.GothamBold
 Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.ZIndex = 2
 Title.Parent = MainFrame
 
 local TitleCorner = Instance.new("UICorner")
 TitleCorner.CornerRadius = UDim.new(0, 12)
 TitleCorner.Parent = Title
 
--- Контейнер для элементов
+-- Контейнер элементов
 local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 12)
 UIListLayout.Parent = MainFrame
 UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
--- Отступы
 local Padding = Instance.new("UIPadding")
 Padding.PaddingTop = UDim.new(0, 55)
 Padding.PaddingLeft = UDim.new(0, 15)
@@ -106,12 +95,12 @@ Padding.PaddingRight = UDim.new(0, 15)
 Padding.Parent = MainFrame
 
 --------------------------------------------------
--- Компоненты (Переключатели и Поля от 1 до 1000)
+-- Компоненты UI
 --------------------------------------------------
 local function createToggle(name, callback)
    local btn = Instance.new("TextButton")
    btn.Size = UDim2.new(1, 0, 0, 40)
-   btn.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+   btn.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
    btn.BackgroundTransparency = 0.4
    btn.BorderSizePixel = 0
    btn.Text = "   " .. name
@@ -119,7 +108,6 @@ local function createToggle(name, callback)
    btn.TextSize = 13
    btn.Font = Enum.Font.GothamSemibold
    btn.TextXAlignment = Enum.TextXAlignment.Left
-   btn.ZIndex = 2
    
    local corner = Instance.new("UICorner")
    corner.CornerRadius = UDim.new(0, 8)
@@ -130,7 +118,6 @@ local function createToggle(name, callback)
    indicator.Position = UDim2.new(1, -25, 0.5, -6)
    indicator.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
    indicator.BorderSizePixel = 0
-   indicator.ZIndex = 2
    indicator.Parent = btn
    
    local indCorner = Instance.new("UICorner")
@@ -156,8 +143,8 @@ end
 local function createTextBox(placeholder, callback)
    local box = Instance.new("TextBox")
    box.Size = UDim2.new(1, 0, 0, 35)
-   box.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-   box.BackgroundTransparency = 0.6
+   box.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+   box.BackgroundTransparency = 0.5
    box.BorderSizePixel = 0
    box.PlaceholderText = placeholder
    box.Text = ""
@@ -165,7 +152,6 @@ local function createTextBox(placeholder, callback)
    box.PlaceholderColor3 = Color3.fromRGB(120, 120, 130)
    box.TextSize = 13
    box.Font = Enum.Font.Gotham
-   box.ZIndex = 2
    
    local corner = Instance.new("UICorner")
    corner.CornerRadius = UDim.new(0, 8)
@@ -186,7 +172,7 @@ local function createTextBox(placeholder, callback)
 end
 
 --------------------------------------------------
--- Логика читов (Speed, Fly, Noclip)
+-- Логика функций
 --------------------------------------------------
 
 -- 1. SpeedHack
